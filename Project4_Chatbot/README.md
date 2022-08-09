@@ -43,7 +43,7 @@ Dialogflow's response come back to express, and if either ReadFromDB (which reca
     Need to create Dialogflow agent + Google Cloud Service Account. Link those 2, get back account credentials and key, set up GOOGLE_ENVIRONMENT_CREDENTIALS in .env file so it will persist beyond individual shell sessions. 
 ![](interesting_code/setup_dialogflow_backend2.png)
 
-2. Linking Dialogflow Intents --> Mongoose Functions
+2. Linking Dialogflow Intents --> Express Functions
 ![](interesting_code/linking_dialogflowIntents_expressMongooseFunctions.png)
 
 # Future Expansions
