@@ -7,8 +7,10 @@ Deja Diary is a chatbot diary app that's meant to help with journalling on the g
 MERN stack linked up with Google's DIALOGFLOW. Dialogflow covers the natural language processing, breathing life into Deja and giving her the verisimilitude of being a conscious interlocutor. 
 
 Currently 2 functionalities: 
+
 SaveMemory - will store a string that you enter like a dear diary entry (triggered by keywords like 'remember', 'dear diary', 'write this down for me', etc.)
     --> recalled with ReadFromDB: this will print the collection of diary entries you've stored before (working on a filter)
+
 ScheduleEvent - will store time, date, location (in the works), eventType, person you're meeting (triggered by simply inputting a sentence with those parameters e.g. "I have a date with Harry tomorrow @ Ion Orchard, 2.45pm")
     --> recalled with RemindEvent: this will print the date and eventType of the event that you've previously stored, and can be filtered by time period e.g. if you ask "What events do I have next week?"
 
@@ -29,6 +31,7 @@ ScheduleEvent - will store time, date, location (in the works), eventType, perso
 ![](interesting_code/gmail_login.png)
 
 3. Auto scroll-to-section using useRef (set to a html element) & useEffect + conditional rendering of the Chatbot when user successfully logs in
+
 ![](interesting_code/autoScroll.png)
 ![](interesting_code/autoScroll2.png)
 
