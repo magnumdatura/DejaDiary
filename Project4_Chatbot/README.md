@@ -14,6 +14,8 @@ SaveMemory - will store a string that you enter like a dear diary entry (trigger
 ScheduleEvent - will store time, date, location (in the works), eventType, person you're meeting (triggered by simply inputting a sentence with those parameters e.g. "I have a date with Harry tomorrow @ Ion Orchard, 2.45pm")
     --> recalled with RemindEvent: this will print the date and eventType of the event that you've previously stored, and can be filtered by time period e.g. if you ask "What events do I have next week?"
 
+Dialogflow's response come back to express, and if either ReadFromDB (which recalls stored memory) OR ScheduleEvent get called, then express/mongoose smuggles in the userMemory / event-details from database into Dialogflow's response object as new key-values (userMemory and userEvents) that then get sent to the Frontend. 
+
 # Technologies used / Points of Interest 
 
 ## FRONTEND
