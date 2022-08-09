@@ -1,7 +1,9 @@
 https://www.figma.com/file/jajBmLF2dVEAckhi9YYAAh/DejaDiary-Dataflow?node-id=0%3A1
 
 # About Deja Diary
-Deja Diary is a chatbot diary app that's meant to help with journalling on the go. I often find that my best ideas come to me during life's in-between moments, inspiration on the train, the afterglow of conversations with friends. I always tell myself I'll write these ideas down once I get home, or when I have time, but by then I have often forgotten! Journalling is a powerful practice, and while it's never been my strong suit, I'm always texting on my phone, a form of writing that's so close to journaling. So I thought I'd make an app to bridge this problem with a nudge to a proximate solution. Currently still in infancy but I hope to develop this into a fully functional app that I can share with friends.
+Deja Diary is a chatbot diary app that's meant to help with journalling on the go. I often find that my best ideas come to me during life's in-between moments, inspiration on the train, the afterglow of conversations with friends. I always tell myself I'll write these ideas down once I get home, or when I have time, but by then I have often forgotten! Journalling is a powerful practice, and while it's never been my strong suit, I'm always texting on my phone, a form of writing that's so close to journaling. So I thought I'd make an app to bridge this problem with a nudge to a proximate solution. Deja hopes to put the serendipity of ideas back into your life, much like a feeling of deja vu!
+
+ Currently still in infancy but I hope to develop this into a fully functional app that I can share with friends.
 
 # Approach Taken
 MERN stack linked up with Google's DIALOGFLOW. Dialogflow covers the natural language processing, breathing life into Deja and giving her the verisimilitude of being a conscious interlocutor. 
