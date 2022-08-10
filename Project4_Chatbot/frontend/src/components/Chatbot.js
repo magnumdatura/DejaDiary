@@ -170,9 +170,25 @@ function Chatbot() {
               memory.createdAt
             ).toLocaleString(DateTime.DATETIME_MED);
             return (
-              <div className="my-1">
+              <div className="my-1 flex">
+                <div>
                 <p className="underline text-white text-xl">{memoryDate}</p>
                 <p className="text-lg">{memory.userMemory}</p>
+                </div>
+                <div class="items-end m-4 py-12">
+                  <input
+                    id="checkbox"
+                    type="checkbox"
+                    value=""
+                    class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label
+                    for="checkbox"
+                    class="ml-2 text-md font-lg text-blue-600"
+                  >
+                    Read
+                  </label>
+                </div>
               </div>
             );
           }
@@ -187,9 +203,25 @@ function Chatbot() {
               DateTime.DATETIME_MED
             );
             return (
-              <div className="my-1">
+              <div className="my-1 flex">
+                <div>
                 <p className="underline text-white text-xl">{eventTime}</p>
                 <p className="text-lg">{event.eventType}</p>
+                </div>
+                <div class="items-end m-4 py-12">
+                  <input
+                    id="checkbox"
+                    type="checkbox"
+                    value=""
+                    class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label
+                    for="checkbox"
+                    class="ml-2 text-md font-lg text-blue-600"
+                  >
+                    Completed
+                  </label>
+                </div>
               </div>
             );
           }
