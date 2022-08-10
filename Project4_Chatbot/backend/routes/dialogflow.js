@@ -6,6 +6,8 @@ const structjson = require("./structjson.js");
 const dialogflow = require("dialogflow");
 const uuid = require("uuid");
 
+const { DateTime } = require("luxon");
+
 const config = require("../config/dev.js");
 
 const projectId = config.googleProjectID;
@@ -65,14 +67,78 @@ router.post("/textQuery", async (req, res) => {
     });
   }
 
-  if (DFintent === "ReadFromDB") {
+  if (DFintent === "RecallMemory") {
+    console.log(result.parameters.fields);
     const selectParams = "userMemory createdAt";
     const readMemory = await TextQuery.find({
       userMemory: { $ne: null },
     }).select(selectParams);
-    console.log(`--------------`);
-    console.log(readMemory);
-    result.userMemory = readMemory;
+
+    // console.log(readMemory);
+
+    // date-period will have a structValue (vs stringValue) only when user keys in a search timeframe. If there is a search timeframe, then run logic checks for userMemory createdAt dates that fit within that timeframe
+    if (result.parameters.fields["date-period"].structValue) {
+      console.log("-----------BOOGER--------------");
+
+      const startTimeFrame =
+        result.parameters.fields["date-period"].structValue?.fields.startDate
+          .stringValue;
+      const endTimeFrame =
+        result.parameters.fields["date-period"].structValue?.fields.endDate
+          .stringValue;
+
+      console.log(startTimeFrame);
+      console.log(endTimeFrame);
+
+      const filteredDates = [];
+
+      for (const memory of readMemory) {
+        console.log("%%%%%%%%%%%%%%%%%%%%%%");
+        console.log(memory.createdAt); // same as new Date(memory.createdAt)
+
+        if (memory.createdAt) {
+          // const stringdate = JSON.stringify(memory.createdAt);
+          // console.log(stringdate);
+          // const splitdate = stringdate.split('"');
+          // console.log(splitdate[1]);
+          // const nomoremilisecond = splitdate[1].split(".");
+          // console.log(nomoremilisecond[0]);
+
+          // converts from MongoDB timestamp --> dialogflow's time format to make comparable
+          const isoStringDate = memory.createdAt.toISOString();
+          console.log(isoStringDate);
+
+          // Don't take away miliseconds because can't reformat later to textQuery.find for MongoDB format again. Instead just stringify, and .localeCompare is smart enough to hold those two formats compatible
+          // const nomoremiliseconds = isoStringDate.split('.')[0];
+          // console.log(nomoremiliseconds);
+
+          console.log("=========================");
+        if (
+          startTimeFrame.localeCompare(isoStringDate) <= 0 &&
+          endTimeFrame.localeCompare(isoStringDate) >= 0
+        ) {
+          console.log("CORRECT TIMING");
+          // re-formats it to MongoDB's timestamp so we can retrieve via mongoose .find method line 127
+          // const gotmilisecondsagain = nomoremiliseconds.concat('.000Z')
+          filteredDates.push(isoStringDate);
+        }
+        }
+      }
+      console.log(filteredDates);
+
+      const filteredMemories = await TextQuery.find({
+        createdAt: filteredDates,
+      }).select(selectParams);
+      console.log("+++++++++++++++++++++++");
+      console.log(filteredMemories);
+      console.log("+++++++++++++++++++++++");
+
+      // console.log(readEvent);
+      result.userMemory = filteredMemories;
+    } else {
+      console.log("-----------WOMP WOMP-------------");
+      result.userMemory = readMemory;
+    }
   }
 
   if (DFintent === "ScheduleEvent") {
@@ -113,7 +179,6 @@ router.post("/textQuery", async (req, res) => {
         .stringValue
     );
 
-    
     const startTimeFrame =
       result.parameters.fields["date-period"].structValue?.fields.startDate
         .stringValue;
@@ -121,17 +186,22 @@ router.post("/textQuery", async (req, res) => {
       result.parameters.fields["date-period"].structValue?.fields.endDate
         .stringValue;
 
-    const filteredDates = []
+    const filteredDates = [];
 
     for (const event of readEvent) {
-      if (startTimeFrame.localeCompare(event.eventDate) <= 0 && endTimeFrame.localeCompare(event.eventDate) >= 0) {
-        filteredDates.push(event.eventDate)
+      if (
+        startTimeFrame.localeCompare(event.eventDate) <= 0 &&
+        endTimeFrame.localeCompare(event.eventDate) >= 0
+      ) {
+        filteredDates.push(event.eventDate);
       }
     }
 
-    const filteredEvents = await TextQuery.find({eventDate: filteredDates}).select(selectParams);
-    console.log(filteredEvents)
-      
+    const filteredEvents = await TextQuery.find({
+      eventDate: filteredDates,
+    }).select(selectParams);
+    console.log(filteredEvents);
+
     // console.log(readEvent);
     result.userEvents = filteredEvents;
   }
@@ -180,7 +250,6 @@ router.post("/eventQuery", async (req, res) => {
   console.log(`INTENT DETECTED: ${DFintent}`);
 
   res.send(result);
-  
 });
 
 module.exports = router;
