@@ -190,15 +190,15 @@ router.post("/textQuery", async (req, res) => {
 
     for (const event of readEvent) {
       if (
-        startTimeFrame.localeCompare(event.eventDate) <= 0 &&
-        endTimeFrame.localeCompare(event.eventDate) >= 0
+        startTimeFrame.localeCompare(event.eventTime) <= 0 &&
+        endTimeFrame.localeCompare(event.eventTime) >= 0
       ) {
-        filteredDates.push(event.eventDate);
+        filteredDates.push(event.eventTime);
       }
     }
 
     const filteredEvents = await TextQuery.find({
-      eventDate: filteredDates,
+      eventTime: filteredDates,
     }).select(selectParams);
     console.log(filteredEvents);
 
