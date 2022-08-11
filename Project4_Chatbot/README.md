@@ -49,7 +49,13 @@ Dialogflow's response come back to express, and if either ReadFromDB (which reca
 ![](interesting_code/linking_dialogflowIntents_expressMongooseFunctions.png)
 
 # Future Expansions
-1. 
+1. Further the Completed toggle functionality to Read status for the diary entries. But store them to a different page, like archives, so still readable. Think about added filtering functionality
+
+2. Link with Google calendar for events stored.
+
+3. Added functionalities in future: adding location tracking? Ability to interface with user's other apps?! :O
+
+4. Deploy into production ???
 
 
 
