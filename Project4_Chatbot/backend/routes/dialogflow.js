@@ -23,7 +23,6 @@ const TextQuery = require("../models/TextQuery.js");
 const EventQuery = require("../models/EventQuery.js");
 
 // TEXT QUERY route
-
 router.post("/textQuery", async (req, res) => {
   // send frontend client req to Dialogflow API
 
@@ -211,7 +210,6 @@ router.post("/textQuery", async (req, res) => {
 });
 
 // EVENT QUERY route
-
 router.post("/eventQuery", async (req, res) => {
   // send frontend client req to Dialogflow API
 
@@ -251,5 +249,11 @@ router.post("/eventQuery", async (req, res) => {
 
   res.send(result);
 });
+
+// Update Event isCompleted status (boolean) in TEXT QUERY collections
+router.patch("/textQuery/events/isCompleted", async (req, res) => {
+  console.log(req.body.eventID)
+  res.send('MADE IT')
+})
 
 module.exports = router;
