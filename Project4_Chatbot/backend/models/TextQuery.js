@@ -10,6 +10,10 @@ const TextQuerySchema = new mongoose.Schema(
     eventDate: String,
     eventTime: String,
     eventPerson: String,
+    isCompleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
   { collection: "textqueries" }

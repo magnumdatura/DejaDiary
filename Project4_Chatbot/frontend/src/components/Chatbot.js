@@ -162,6 +162,13 @@ function Chatbot() {
     // const AvatarSrc =
     //   message.who === "deja" ? <AndroidOutlined /> : <UserOutlined />;
 
+    function handleCheck(event) {
+      
+      if(event.target.checked === true){
+      console.log('HELLO WORLD KITTY KATTY BATMAN DUGA')
+      }
+    }
+
     const messageType =
       (message.content.userMemory &&
         message.content.userMemory.map((memory, i) => {
@@ -177,13 +184,13 @@ function Chatbot() {
                 </div>
                 <div class="items-end m-4 py-12">
                   <input
-                    id="checkbox"
+                    id="default-checkbox"
                     type="checkbox"
                     value=""
                     class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
                   <label
-                    for="checkbox"
+                    for="default-checkbox"
                     class="ml-2 text-md font-lg text-blue-600"
                   >
                     Read
@@ -196,6 +203,7 @@ function Chatbot() {
       (message.content.userEvents &&
         message.content.userEvents.map((event, i) => {
           if (event.eventType) {
+            
             const eventDate = DateTime.fromISO(event.eventDate).toLocaleString(
               DateTime.DATETIME_MED
             );
@@ -210,13 +218,14 @@ function Chatbot() {
                 </div>
                 <div class="items-end m-4 py-12">
                   <input
-                    id="checkbox"
+                    id="default-checkbox"
                     type="checkbox"
                     value=""
                     class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    onChange={handleCheck}
                   />
                   <label
-                    for="checkbox"
+                    for="default-checkbox"
                     class="ml-2 text-md font-lg text-blue-600"
                   >
                     Completed
