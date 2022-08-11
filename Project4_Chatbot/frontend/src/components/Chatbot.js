@@ -163,24 +163,27 @@ function Chatbot() {
     //   message.who === "deja" ? <AndroidOutlined /> : <UserOutlined />;
 
     async function handleEventCompleted(event) {
-      if (event.target.checked === true) {
-        console.log("HELLO WORLD KITTY KATTY BATMAN DUGA");
-        // take userEvent ID from map below, parse it together with boolean isCompleted set to true now, and send that in to database
-        console.log(event.target.getAttribute("storeid"));
 
-        const eventID = {
-          eventID: event.target.getAttribute("storeid"),
-        };
-        try {
-          const response = await Axios.patch(
-            "http://localhost:5001/api/dialogflow//textQuery/events/isCompleted",
-            eventID
-          );
-          console.log(response);
-        } catch (error) {
-          console.log(error);
-        }
+      // if (event.target.checked) {
+      console.log("HELLO WORLD KITTY KATTY BATMAN DUGA");
+      // take userEvent ID from map below, parse it together with boolean isCompleted set to true now, and send that in to database
+      console.log(event.target.getAttribute("storeid"));
+
+      const eventID = {
+        eventID: event.target.getAttribute("storeid"),
+        checked: event.target.checked
+      };
+
+      try {
+        const response = await Axios.patch(
+          "http://localhost:5001/api/dialogflow//textQuery/events/isCompleted",
+          eventID
+        );
+        console.log(response);
+      } catch (error) {
+        console.log(error);
       }
+      // }
     }
 
     const messageType =
@@ -191,7 +194,7 @@ function Chatbot() {
               memory.createdAt
             ).toLocaleString(DateTime.DATETIME_MED);
             return (
-              <div className="my-1 flex">
+              <div className="my-1 flex justify-between">
                 <div>
                   <p className="underline text-white text-xl">{memoryDate}</p>
                   <p className="text-lg">{memory.userMemory}</p>
@@ -217,37 +220,42 @@ function Chatbot() {
       (message.content.userEvents &&
         message.content.userEvents.map((event, i) => {
           if (event.eventType) {
-            // console.log(event._id)
-            const eventDate = DateTime.fromISO(event.eventDate).toLocaleString(
-              DateTime.DATETIME_MED
-            );
-            const eventTime = DateTime.fromISO(event.eventTime).toLocaleString(
-              DateTime.DATETIME_MED
-            );
-            return (
-              <div className="my-1 flex">
-                <div>
-                  <p className="underline text-white text-xl">{eventTime}</p>
-                  <p className="text-lg">{event.eventType}</p>
+            // if (event.isCompleted == "false") {
+            console.log(event.isCompleted);
+            if (!event.isCompleted) {
+              const eventDate = DateTime.fromISO(
+                event.eventDate
+              ).toLocaleString(DateTime.DATETIME_MED);
+              const eventTime = DateTime.fromISO(
+                event.eventTime
+              ).toLocaleString(DateTime.DATETIME_MED);
+              return (
+                <div className="my-1 flex justify-between">
+                  <div>
+                    <p className="underline text-white text-xl">{eventTime}</p>
+                    <p className="text-lg">
+                      {event.eventType} with {event.eventPerson}
+                    </p>
+                  </div>
+                  <div class="items-end m-4 py-12 right-0">
+                    <input
+                      id="default-checkbox"
+                      type="checkbox"
+                      value=""
+                      class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      storeid={event._id}
+                      onChange={handleEventCompleted}
+                    />
+                    <label
+                      for="default-checkbox"
+                      class="ml-2 text-md font-lg text-blue-600"
+                    >
+                      Completed
+                    </label>
+                  </div>
                 </div>
-                <div class="items-end m-4 py-12">
-                  <input
-                    id="default-checkbox"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                    storeid={event._id}
-                    onChange={handleEventCompleted}
-                  />
-                  <label
-                    for="default-checkbox"
-                    class="ml-2 text-md font-lg text-blue-600"
-                  >
-                    Completed
-                  </label>
-                </div>
-              </div>
-            );
+              );
+            }
           }
         }));
 

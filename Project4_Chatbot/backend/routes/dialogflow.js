@@ -112,15 +112,15 @@ router.post("/textQuery", async (req, res) => {
           // console.log(nomoremiliseconds);
 
           console.log("=========================");
-        if (
-          startTimeFrame.localeCompare(isoStringDate) <= 0 &&
-          endTimeFrame.localeCompare(isoStringDate) >= 0
-        ) {
-          console.log("CORRECT TIMING");
-          // re-formats it to MongoDB's timestamp so we can retrieve via mongoose .find method line 127
-          // const gotmilisecondsagain = nomoremiliseconds.concat('.000Z')
-          filteredDates.push(isoStringDate);
-        }
+          if (
+            startTimeFrame.localeCompare(isoStringDate) <= 0 &&
+            endTimeFrame.localeCompare(isoStringDate) >= 0
+          ) {
+            console.log("CORRECT TIMING");
+            // re-formats it to MongoDB's timestamp so we can retrieve via mongoose .find method line 127
+            // const gotmilisecondsagain = nomoremiliseconds.concat('.000Z')
+            filteredDates.push(isoStringDate);
+          }
         }
       }
       console.log(filteredDates);
@@ -164,7 +164,8 @@ router.post("/textQuery", async (req, res) => {
   }
 
   if (DFintent === "RemindEvent") {
-    const selectParams = "eventType eventDate eventTime eventPerson";
+    const selectParams =
+      "eventType eventDate eventTime eventPerson isCompleted";
     const readEvent = await TextQuery.find({ eventType: { $ne: null } }).select(
       selectParams
     );
@@ -252,11 +253,18 @@ router.post("/eventQuery", async (req, res) => {
 
 // Update Event isCompleted status (boolean) in TEXT QUERY collections
 router.patch("/textQuery/events/isCompleted", async (req, res) => {
-  console.log(req.body.eventID)
+  // console.log(req.body.eventID);
 
-  const updateComplete = await TextQuery.findByIdAndUpdate(req.body.eventID, {$set: {isCompleted: true}})
+  const updateComplete = await TextQuery.findByIdAndUpdate(req.body.eventID, {
+    $set: { isCompleted: req.body.checked },
+  }); // !eventItem.isCompleted
 
-  res.send('MADE IT')
-})
+  const eventItem = await TextQuery.findById(req.body.eventID).select(
+    "isCompleted"
+  );
+  console.log(eventItem.isCompleted)
+
+  res.send("MADE IT");
+});
 
 module.exports = router;
