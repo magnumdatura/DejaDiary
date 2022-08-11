@@ -253,6 +253,9 @@ router.post("/eventQuery", async (req, res) => {
 // Update Event isCompleted status (boolean) in TEXT QUERY collections
 router.patch("/textQuery/events/isCompleted", async (req, res) => {
   console.log(req.body.eventID)
+
+  const updateComplete = await TextQuery.findByIdAndUpdate(req.body.eventID, {$set: {isCompleted: true}})
+
   res.send('MADE IT')
 })
 
