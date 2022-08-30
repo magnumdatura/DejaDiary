@@ -149,7 +149,7 @@ function Chatbot() {
         return alert("Sorry! Gimme something to start with");
       }
 
-      // send e.target.value (request) to textQuery route in backend
+      // send e.target.value (request) to textQuery route line 18
       textQuery(e.target.value);
 
       e.target.value = "";
@@ -159,13 +159,9 @@ function Chatbot() {
   const renderOneMessage = (message, index) => {
     console.log(message);
 
-    // const AvatarSrc =
-    //   message.who === "deja" ? <AndroidOutlined /> : <UserOutlined />;
-
     async function handleEventCompleted(event) {
 
       // if (event.target.checked) {
-      console.log("HELLO WORLD KITTY KATTY BATMAN DUGA");
       // take userEvent ID from map below, parse it together with boolean isCompleted set to true now, and send that in to database
       console.log(event.target.getAttribute("storeid"));
 
@@ -189,7 +185,9 @@ function Chatbot() {
     const messageType =
       (message.content.userMemory &&
         message.content.userMemory.map((memory, i) => {
+          console.log(memory) 
           if (memory.userMemory) {
+            if (!memory.isCompleted) {
             const memoryDate = DateTime.fromISO(
               memory.createdAt
             ).toLocaleString(DateTime.DATETIME_MED);
@@ -199,16 +197,18 @@ function Chatbot() {
                   <p className="underline text-white text-xl">{memoryDate}</p>
                   <p className="text-lg">{memory.userMemory}</p>
                 </div>
-                <div class="items-end m-4 py-12">
+                <div className="items-end m-4 py-12">
                   <input
                     id="default-checkbox"
                     type="checkbox"
                     value=""
-                    class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    storeid={memory._id}
+                    onChange={handleEventCompleted}
                   />
                   <label
                     for="default-checkbox"
-                    class="ml-2 text-md font-lg text-blue-600"
+                    className="ml-2 text-md font-lg text-blue-600"
                   >
                     Read
                   </label>
@@ -216,6 +216,7 @@ function Chatbot() {
               </div>
             );
           }
+        }
         })) ||
       (message.content.userEvents &&
         message.content.userEvents.map((event, i) => {
@@ -237,18 +238,18 @@ function Chatbot() {
                       {event.eventType} with {event.eventPerson}
                     </p>
                   </div>
-                  <div class="items-end m-4 py-12 right-0">
+                  <div className="items-end m-4 py-12 right-0">
                     <input
                       id="default-checkbox"
                       type="checkbox"
                       value=""
-                      class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       storeid={event._id}
                       onChange={handleEventCompleted}
                     />
                     <label
                       for="default-checkbox"
-                      class="ml-2 text-md font-lg text-blue-600"
+                      className="ml-2 text-md font-lg text-blue-600"
                     >
                       Completed
                     </label>
@@ -265,7 +266,6 @@ function Chatbot() {
         className="border bg-gradient-to-r from-teal-400 rounded-md w-2/3 m-2 font-serif"
       >
         <div className="m-2 ">
-          {/* <Avatar icon={chatbot} /> */}
           <img src={chatbot} className="object-scale-down h-16 w-16" />
           <div className="text-2xl mt-2 rounded-lg bg-gradient-to-r from-emerald-100">
             <p className="ml-2 font-semibold">{message.who}</p>
@@ -282,7 +282,6 @@ function Chatbot() {
         className="border bg-gradient-to-l from-orange-400 rounded-md w-2/3 inset-y-0 mx-20 font-serif"
       >
         <div className="m-2 ">
-          {/* <Avatar icon={hacker} /> */}
           <img src={hacker} className="object-scale-down h-16 w-16" />
           <div className="text-2xl mt-2 rounded-lg bg-gradient-to-r from-yellow-100">
             <p className="ml-2 font-semibold">{message.who}</p>

@@ -68,7 +68,7 @@ router.post("/textQuery", async (req, res) => {
 
   if (DFintent === "RecallMemory") {
     console.log(result.parameters.fields);
-    const selectParams = "userMemory createdAt";
+    const selectParams = "userMemory createdAt isCompleted";
     const readMemory = await TextQuery.find({
       userMemory: { $ne: null },
     }).select(selectParams);
@@ -253,16 +253,16 @@ router.post("/eventQuery", async (req, res) => {
 
 // Update Event isCompleted status (boolean) in TEXT QUERY collections
 router.patch("/textQuery/events/isCompleted", async (req, res) => {
-  // console.log(req.body.eventID);
+  console.log(req.body.eventID);
 
   const updateComplete = await TextQuery.findByIdAndUpdate(req.body.eventID, {
     $set: { isCompleted: req.body.checked },
   }); // !eventItem.isCompleted
 
   const eventItem = await TextQuery.findById(req.body.eventID).select(
-    "isCompleted"
+    "isCompleted userMemory"
   );
-  console.log(eventItem.isCompleted)
+  console.log(eventItem); 
 
   res.send("MADE IT");
 });
